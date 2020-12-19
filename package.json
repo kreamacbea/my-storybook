@@ -24,14 +24,16 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsconfig": "<rootDir>/tsconfig.spec.json",
-        "stringifyContentPathRegex": "\\.html$",
-        "diagnostics": false,
-        "isolatedModules": true,
-        "astTransformers": [
+        "astTransformers": {
+          "before": [
           "<rootDir>/node_modules/jest-preset-angular/build/InlineFilesTransformer",
           "<rootDir>/node_modules/jest-preset-angular/build/StripStylesTransformer"
         ]
+      },
+      "tsconfig": "<rootDir>/tsconfig.spec.json",
+        "stringifyContentPathRegex": "\\.html$",
+        "diagnostics": false,
+        "isolatedModules": true
       }
     },
     "moduleNameMapper": {
@@ -40,7 +42,8 @@
     },
     "transform": {
       "^.+\\.(ts|html)$": "ts-jest",
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.stories\\.[jt]sx?$": "@storybook/addon-storyshots/injectFileName"
     },
     "moduleFileExtensions": [
       "ts",
@@ -67,7 +70,8 @@
     "prebuild:storybook": "npm run test:generate-output",
     "build-storybook": "npm run docs:json && build-storybook",
     "predeploy": "npm run build:storybook",
-    "deploy": "gh-pages -d build/"
+    "deploy": "gh-pages -d build/",
+    "chromatic": "npx chromatic --project-token nhsmvw64h3"
   },
   "private": true,
   "dependencies": {
@@ -97,6 +101,7 @@
     "@storybook/addon-essentials": "^6.1.11",
     "@storybook/addon-jest": "^6.1.11",
     "@storybook/addon-links": "^6.1.11",
+    "@storybook/addon-storyshots": "^6.1.11",
     "@storybook/angular": "^6.1.11",
     "@testing-library/angular": "^10.3.0",
     "@testing-library/jest-dom": "^5.11.6",
